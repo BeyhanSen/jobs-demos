@@ -23,6 +23,10 @@ async function initBrowser() {
 async function takeScreenshot(browser, url) {
   const page = await browser.newPage();
 
+  const desiredWidth = 1920;
+  const desiredHeight = 1080;
+  const sf = 0.75;
+
   console.log(`Navigating to ${url}`);
   await page.goto(url);
   
@@ -37,8 +41,20 @@ async function takeScreenshot(browser, url) {
     var _xcc;
     _xcc = xcc_contains('[class*=VtwTSb] button, [class*=spoKVd] button', '^(Reject all|Odrzuć wszystko)$');
     if (_xcc != null && _xcc.length != 0) { _xcc[0].click(); }
-});
+  });
 
+  console.log(`Waiting 10 seconds`);
+  await page.waitForTimeout(10000);
+
+  console.log(`Zooming out`);
+  await page.setViewport({
+    width: parseInt(desiredWidth / sf),
+    height: parseInt(desiredHeight / sf),
+    deviceScaleFactor: sf,
+  });
+
+  console.log(`Waiting 10 seconds`);
+  await page.waitForTimeout(10000);
 
   console.log(`Taking a screenshot of ${url}`);
   return await page.screenshot({
