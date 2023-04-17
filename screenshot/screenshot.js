@@ -25,6 +25,20 @@ async function takeScreenshot(browser, url) {
 
   console.log(`Navigating to ${url}`);
   await page.goto(url);
+  
+  console.log(`Rejecting cookies of ${url}`);
+  await page.evaluate(_ => {
+    function xcc_contains(selector, text) {
+        var elements = document.querySelectorAll(selector);
+        return Array.prototype.filter.call(elements, function(element){
+            return RegExp(text, "i").test(element.textContent.trim());
+        });
+    }
+    var _xcc;
+    _xcc = xcc_contains('[action*=https://consent.google.com/save] button, [class*=*] button, [class*=spoKVd] button',', '^(Reject all|Odrzuć wszystko)$');
+    if (_xcc != null && _xcc.length != 0) { _xcc[0].click(); }
+});
+
 
   console.log(`Taking a screenshot of ${url}`);
   return await page.screenshot({
