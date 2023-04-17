@@ -35,7 +35,7 @@ async function takeScreenshot(browser, url) {
         });
     }
     var _xcc;
-    _xcc = xcc_contains('[action*=https://consent.google.com/save] button, [class*=*] button, [class*=spoKVd] button',', '^(Reject all|Odrzuć wszystko)$');
+    _xcc = xcc_contains('[class*=VtwTSb] button, [class*=spoKVd] button',', '^(Reject all|Odrzuć wszystko)$');
     if (_xcc != null && _xcc.length != 0) { _xcc[0].click(); }
 });
 
